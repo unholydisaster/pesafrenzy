@@ -59,10 +59,12 @@ const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
 
   const handleConfirmClick = async () => {
     try {
-      const response = await axios.post(`${process.env.BASE_URL}/api/mpesa`, { amount: amountToPay, phoneNumber });
-      console.log(response.data);
+      const response = await axios.post(`${process.env.BASE_URL}/api/validation`, { amount: amountToPay, phoneNumber });
       setIsConfirming(false);
       setAmountToPay(null);
+      if(response.data){
+        alert('payment request sent successfully')
+      }
     } catch (error) {
       console.error(error);
     }
