@@ -30,7 +30,7 @@ export default async (req, res) => {
       
       const headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer UARgI5ObtVzATT5tY1vnCDpz6QtO"
+        "Authorization": `Bearer ${accessToken}`,
       };
 
       const { phone, amount } = req.body;
