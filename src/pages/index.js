@@ -43,7 +43,7 @@ const ConfirmButton = styled.button`
   padding: 12px 16px;
 `;
 
-const amounts = [10, 20, 30, 50, 100, 250, 1000];
+const amounts = ["10", "20", "30", "50", "100", "250", "1000"];
 
 const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
   const [amountToPay, setAmountToPay] = useState(null);
@@ -89,7 +89,7 @@ const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
 };
 
 const HomePage = () => {
-  const [phoneNumber, setPhoneNumber] = useState(0718832297);
+  const [phoneNumber, setPhoneNumber] = useState('0718832297');
 
   return (
     <>

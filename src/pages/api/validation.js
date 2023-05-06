@@ -36,9 +36,7 @@ const generateToken = async () => {
   }
 };
 
-const headers = {
-  "Content-Type": "application/json",
-};
+
 
 export default async (req, res) => {
   try {
@@ -53,17 +51,6 @@ export default async (req, res) => {
         Amount: amount,
         Msisdn: phone,
       };
-
-      await axios.post(
-        "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl",
-        {
-          ShortCode: 174379,
-          ResponseType: "Completed",
-          ConfirmationURL: `${process.env.BASE_URL}/confirmation`,
-          ValidationURL: `${process.env.BASE_URL}/validation`,
-        },
-        { headers }
-      );
 
       const response = await axios.post(
         `${process.env.MPESA_BASE_URL}`,
