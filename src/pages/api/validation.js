@@ -1,11 +1,15 @@
 import axios from "axios";
 import cors from "cors";
 
-cors();
+const corsMiddleware = cors({
+  origin: "*", // Be sure to change this to your actual domain
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+});
 
-let accessToken = null;
-let refreshToken = null;
-let expiresIn = null;
+const accessToken = {
+  token: null,
+  expiresIn: null,
+};
 
 const generateToken = async () => {
   try {
@@ -19,14 +23,13 @@ const generateToken = async () => {
       }
     );
 
-    accessToken = data.access_token;
-    refreshToken = data.refresh_token;
-    expiresIn = data.expires_in;
+    accessToken.token = data.access_token;
+    accessToken.expiresIn = data.expires_in;
 
     // Set a timeout to refresh the access token a few minutes before it expires
-    setTimeout(generateToken, (expiresIn - 5 * 60) * 1000);
+    setTimeout(generateToken, (accessToken.expiresIn - 5 * 60) * 1000);
 
-    return accessToken;
+    return accessToken.token;
   } catch (error) {
     console.error(error);
     throw new Error("Failed to generate token");
@@ -39,6 +42,8 @@ const headers = {
 
 export default async (req, res) => {
   try {
+    await corsMiddleware(req, res); // Call the cors middleware
+
     if (req.method === "POST") {
       const { phone, amount } = req.body;
 
@@ -65,7 +70,7 @@ export default async (req, res) => {
         data,
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken.token}`,
           },
         }
       );
