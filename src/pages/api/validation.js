@@ -1,14 +1,11 @@
 import axios from "axios";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 let accessToken = null;
 let refreshToken = null;
 let expiresIn = null;
 
 const generateToken = async () => {
-  const { data } = await axios.get(`${process.env.MPESA_ENVIRONMENT}`, {
+  const { data } = await axios.get("https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials", {
     auth: {
       username: process.env.MPESA_CONSUMER_KEY,
       password: process.env.MPESA_CONSUMER_SECRET,
@@ -30,18 +27,31 @@ generateToken();
 
 export default async (req, res) => {
     if (req.method === "POST") {
+      
+      const headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer UARgI5ObtVzATT5tY1vnCDpz6QtO"
+      };
+
       const { phone, amount } = req.body;
   
       const data = {
-        ShortCode:process.env.MPESA_SHORTCODE,
-        CommandID:"CustomerPayBillOnline",
-        Amount:amount,
-        Msisdn:phone,
+        "ShortCode":process.env.MPESA_SHORTCODE,
+        "CommandID":"CustomerBuyGoodsOnline",
+        "Amount":amount,
+        "Msisdn":phone,
       };
   
       try {
+        const res = await axios.post("https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl", {
+          "ShortCode":174379,
+          "ResponseType": "Completed",
+          "ConfirmationURL": `${process.env.BASE_URL}/confirmation`,
+          "ValidationURL": `${process.env.BASE_URL}/validation`,
+        }, { headers });
+
         const response = await axios.post(
-          `${process.env.MPESA_BASE_URL}/mpesa/c2b/v1/simulate`,
+          `${process.env.MPESA_BASE_URL}`,
           data,
           {
             headers: {
@@ -49,8 +59,8 @@ export default async (req, res) => {
             },
           }
         );
-  
-        res.status(200).json(response.data);
+
+        res.status(200).json({ res: res.data, response: response.data });
       } catch (error) {
         console.error(error);
         res.status(500).json(error);
