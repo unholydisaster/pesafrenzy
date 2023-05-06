@@ -8,6 +8,14 @@ const nextConfig = {
     MPESA_SHORTCODE:"174379",
     BASE_URL:"https://pesafrenzy.vercel.app",
   },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://api.example.com/:path*',
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
