@@ -1,13 +1,14 @@
 import axios from "axios";
-import applyCorsMiddleware from "./midleware";
+import cors from "cors"
 
+cors()
 
 let accessToken = null;
 let refreshToken = null;
 let expiresIn = null;
 
 const generateToken = async () => {
-  await applyCorsMiddleware(req, res);
+ 
   const { data } = await axios.get("https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials", {
     auth: {
       username: process.env.MPESA_CONSUMER_KEY,
@@ -29,7 +30,7 @@ const generateToken = async () => {
 generateToken();
 
 export default async (req, res) => {
-  await applyCorsMiddleware(req, res);
+
 
     if (req.method === "POST") {
       
