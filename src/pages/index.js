@@ -89,7 +89,7 @@ const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
 };
 
 const HomePage = () => {
-  const [phoneNumber, setPhoneNumber] = useState('0718832297');
+  const [phoneNumber, setPhoneNumber] = useState(0718832297);
 
   return (
     <>
