@@ -4,16 +4,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import cors from 'cors';
 
-const instance = axios.create({
-  baseURL: `${process.env.BASE_URL}`,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-const corsInstance = cors(instance);
-
+cors()
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -65,7 +56,7 @@ const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
 
   const handleConfirmClick = async () => {
     try {
-      const response = await corsInstance.post(`/api/validation`, { amount: amountToPay, phoneNumber });
+      const response = await axios.post(`${process.env.BASE_URL}/api/validation`, { amount: amountToPay, phoneNumber });
       setIsConfirming(false);
       setAmountToPay(null);
       if(response.data){
