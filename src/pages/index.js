@@ -65,7 +65,7 @@ const VerticalButtons = ({ phoneNumber, setPhoneNumber }) => {
 
   const handleConfirmClick = async () => {
     try {
-      const response = await corsInstance.post(`${process.env.BASE_URL}/api/validation`, { amount: amountToPay, phoneNumber });
+      const response = await corsInstance.post(`/api/validation`, { amount: amountToPay, phoneNumber });
       setIsConfirming(false);
       setAmountToPay(null);
       if(response.data){
