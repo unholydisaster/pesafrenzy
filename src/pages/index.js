@@ -10,11 +10,11 @@ const Mpesa = () => {
   const getAccessToken = async () => {
     const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET } = process.env
     const basicAuth = `Basic ${base64.encode(`${MPESA_CONSUMER_KEY}:${MPESA_CONSUMER_SECRET}`)}`;
-
+  
     try {
       const response = await axios({
         url: 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-        method: 'post',
+        method: 'get',
         headers: {
           'Authorization': basicAuth,
         },
@@ -26,7 +26,7 @@ const Mpesa = () => {
       console.log(error);
     }
   };
-
+  
   const simulateMpesaTransaction = async () => {
     if (!accessToken) {
       await getAccessToken();
