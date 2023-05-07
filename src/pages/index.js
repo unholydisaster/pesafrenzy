@@ -28,6 +28,10 @@ const Mpesa = () => {
   };
 
   const simulateMpesaTransaction = async () => {
+    if (!accessToken) {
+      await getAccessToken();
+    }
+  
     try {
       const response = await axios({
         url: 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate',
@@ -38,7 +42,6 @@ const Mpesa = () => {
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
         },
-        
         data: {
           'ShortCode': '174379',
           'CommandID': 'CustomerBuyGoodsOnline',
@@ -52,7 +55,7 @@ const Mpesa = () => {
       console.log(error);
     }
   };
-
+   
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
