@@ -34,7 +34,10 @@ const Mpesa = () => {
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
         },
+        
         data: {
           'ShortCode': '174379',
           'CommandID': 'CustomerBuyGoodsOnline',
