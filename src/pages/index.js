@@ -36,14 +36,15 @@ const Mpesa = () => {
           'Content-Type': 'application/json',
         },
         data: {
-          'ShortCode': 'your_short_code_here',
+          'ShortCode': '174379',
           'CommandID': 'CustomerBuyGoodsOnline',
           'Amount': amount,
           'Msisdn': phoneNumber,
         },
       });
-      console.log(response.data);
+      alert("successfully requested")
     } catch (error) {
+      alert("an error occured")
       console.log(error);
     }
   };
