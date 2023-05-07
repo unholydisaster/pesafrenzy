@@ -20,6 +20,7 @@ const Mpesa = () => {
         },
       });
       const data = response.data;
+      console.log(data)
       setAccessToken(data.access_token);
     } catch (error) {
       console.log(error);
