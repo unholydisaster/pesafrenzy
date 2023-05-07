@@ -1,6 +1,6 @@
-import axios from 'axios';
+import React, { useState } from 'react';
 import base64 from 'base-64';
-import react,{ useState } from 'react';
+import fetch from 'isomorphic-unfetch';
 
 const Mpesa = () => {
   const [accessToken, setAccessToken] = useState(null);
@@ -8,54 +8,50 @@ const Mpesa = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const getAccessToken = async () => {
-    const { MPESA_CONSUMER_KEY, MPESA_CONSUMER_SECRET } = process.env
-    const basicAuth = `Basic ${base64.encode(`${MPESA_CONSUMER_KEY}:${MPESA_CONSUMER_SECRET}`)}`;
-  
+    const basicAuth = `Basic ${base64.encode(`${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`)}`;
+
     try {
-      const response = await axios({
-        url: 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
-        method: 'get',
+      const response = await fetch('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
         headers: {
           'Authorization': basicAuth,
         },
       });
-      const data = response.data;
-      console.log(data)
+      const data = await response.json();
+      console.log(data);
       setAccessToken(data.access_token);
     } catch (error) {
       console.log(error);
     }
   };
-  
+
   const simulateMpesaTransaction = async () => {
     if (!accessToken) {
       await getAccessToken();
     }
-  
+
     try {
-      const response = await axios({
-        url: 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate',
-        method: 'post',
+      const response = await fetch('https://api.safaricom.co.ke/mpesa/c2b/v1/simulate', {
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
-        data: {
+        body: JSON.stringify({
           'ShortCode': '174379',
           'CommandID': 'CustomerBuyGoodsOnline',
           'Amount': amount,
           'Msisdn': phoneNumber,
-        },
+        }),
       });
-      alert("successfully requested")
+      alert('successfully requested');
     } catch (error) {
-      alert("an error occured")
+      alert('an error occurred');
       console.log(error);
     }
   };
-   
+
   const handleAmountChange = (e) => {
     setAmount(e.target.value);
   };
