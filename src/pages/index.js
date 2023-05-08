@@ -1,56 +1,36 @@
 import React, { useState } from 'react';
 import base64 from 'base-64';
 import fetch from 'isomorphic-unfetch';
+import axios from "axios"
 
 const Mpesa = () => {
-  const [accessToken, setAccessToken] = useState(null);
   const [amount, setAmount] = useState('10');
   const [phoneNumber, setPhoneNumber] = useState('');
-
-  const getAccessToken = async () => {
-    const basicAuth = `Basic ${base64.encode(`${process.env.MPESA_CONSUMER_KEY}:${process.env.MPESA_CONSUMER_SECRET}`)}`;
-
-    try {
-      const response = await fetch('https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
-        headers: {
-          'Authorization': basicAuth,
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      setAccessToken(data.access_token);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+  
+  
   const simulateMpesaTransaction = async () => {
-    if (!accessToken) {
-      await getAccessToken();
-    }
-
     try {
-      const response = await fetch('https://api.safaricom.co.ke/mpesa/c2b/v1/simulate', {
-        method: 'POST',
+      const response = await axios.post('https://api.safaricom.co.ke/mpesa/c2b/v1/simulate', {
+        'ShortCode': '174379',
+        'CommandID': 'CustomerBuyGoodsOnline',
+        'Amount': amount,
+        'Msisdn': phoneNumber,
+      }, {
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
         },
-        body: JSON.stringify({
-          'ShortCode': '174379',
-          'CommandID': 'CustomerBuyGoodsOnline',
-          'Amount': amount,
-          'Msisdn': phoneNumber,
-        }),
       });
       alert('successfully requested');
+      console.log(response.data)
     } catch (error) {
       alert('an error occurred');
       console.log(error);
     }
   };
+  
 
   const handleAmountChange = (e) => {
     setAmount(e.target.value);

@@ -7,6 +7,7 @@ const nextConfig = {
     MPESA_ENVIRONMENT:"https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate",
     MPESA_SHORTCODE:"174379",
     BASE_URL:"https://pesafrenzy.vercel.app",
+    ACCESS_TOKEN:"TldlT3R4bGhJaExHVDFVVW1jZlRUVEZJajVmTkdYSU86dmVCaElCNms1azJCOGcwaA=="
   },
   async rewrites() {
     return [
