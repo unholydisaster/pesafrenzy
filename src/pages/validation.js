@@ -11,10 +11,11 @@ const Validation = () => {
   const simulateMpesaTransaction = async () => {
     try {
       const response = await axios.post('https://api.safaricom.co.ke/mpesa/c2b/v1/simulate', {
-        'ShortCode': '174379',
-        'CommandID': 'CustomerBuyGoodsOnline',
-        'Amount': amount,
-        'Msisdn': phoneNumber,
+        "ShortCode":"174379",
+        "CommandID":"CustomerPayBillOnline",
+        "Amount":amount,
+        "Msisdn":phoneNumber,
+        "BillRefNumber":"test"
       }, {
         headers: {
           'Authorization': `Bearer ${process.env.ACCESS_TOKEN}`,
