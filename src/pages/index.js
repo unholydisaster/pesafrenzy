@@ -17,7 +17,7 @@ const MyForm = () => {
 
     axios.post('/api/lipanampesa', requestData)
       .then(response => {
-        console.log(response.data);
+        console.log(response.data,orderId);
         // handle successful response here
       })
       .catch(error => {
