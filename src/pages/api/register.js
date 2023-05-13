@@ -5,7 +5,7 @@ export const registerCallbackURLs = async () => {
         "ShortCode":process.env.BUSINESS_SHORT_CODE,
         "ResponseType": "Completed",
         "ConfirmationURL": `${process.env.BASE_URL}/api/stkPushCallback`,
-        "ValidationURL": `${process.env.BASE_URL}/api/validation`
+        "ValidationURL": `${process.env.BASE_URL}/api/stkPushCallback`
       };
       
       const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
