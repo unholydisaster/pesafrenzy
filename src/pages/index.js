@@ -14,10 +14,10 @@ const MyForm = () => {
       phone: phone,
       Order_ID: orderId
     };
-
+    console.log(requestData)
     axios.post('/api/lipanampesa', requestData)
       .then(response => {
-        console.log(response.data,orderId);
+        console.log(response.data);
         // handle successful response here
       })
       .catch(error => {
