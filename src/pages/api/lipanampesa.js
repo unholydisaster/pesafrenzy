@@ -9,7 +9,7 @@ export default async (req, res,next) => {
   try {
     const { amount, phone, Order_ID } = req.body; 
 
-    const auth = 'Bearer zGZFeGDe0poL1RD7dkGELA8ZbHtW';
+    const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
     registerCallbackURLs();
     next
     const url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';

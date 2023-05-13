@@ -8,7 +8,7 @@ export const registerCallbackURLs = async () => {
         "ValidationURL": `${process.env.BASE_URL}/api/validation`
       };
       
-      const auth = 'Bearer zGZFeGDe0poL1RD7dkGELA8ZbHtW';
+      const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
       
       try{
         const response = await axios.post('https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl', body, {
