@@ -5,9 +5,10 @@ const nextConfig = {
     MPESA_CONSUMER_KEY:"NWeOtxlhIhLGT1UUmcfTTTFIj5fNGXIO",
     MPESA_CONSUMER_SECRET: "veBhIB6k5k2B8g0h",
     MPESA_ENVIRONMENT:"https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate",
-    MPESA_SHORTCODE:"174379",
+    BUSINESS_SHORT_CODE:"174379",
     BASE_URL:"https://pesafrenzy.vercel.app",
-    ACCESS_TOKEN:"TldlT3R4bGhJaExHVDFVVW1jZlRUVEZJajVmTkdYSU86dmVCaElCNms1azJCOGcwaA=="
+    PASS_KEY:"bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
+    PORT:3000 
   },
   async rewrites() {
     return [
