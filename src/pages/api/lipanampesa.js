@@ -10,7 +10,7 @@ export default async (req, res,next) => {
     const { amount, phone, Order_ID } = req.body; 
 
     const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
-    registerCallbackURLs();
+    registerCallbackURLs(Order_ID);
     next
     const url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
@@ -33,7 +33,7 @@ export default async (req, res,next) => {
       PartyA: `254${phone}`,
       PartyB: process.env.BUSINESS_SHORT_CODE,
       PhoneNumber: `254${phone}`,
-      CallBackURL: `${process.env.BASE_URL}/api/stkPushCallback`,
+      CallBackURL: `${process.env.BASE_URL}/api/stkPushCallback/${Order_ID}`,
       AccountReference: 'pesafrenzy limited',
       TransactionDesc: 'Paid online',
     };

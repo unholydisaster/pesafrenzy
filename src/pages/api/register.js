@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-export const registerCallbackURLs = async () => {
+export const registerCallbackURLs = async (Order_ID) => {
     const body = {
         "ShortCode":process.env.BUSINESS_SHORT_CODE,
         "ResponseType": "Completed",
-        "ConfirmationURL": `${process.env.BASE_URL}/api/stkPushCallback`,
-        "ValidationURL": `${process.env.BASE_URL}/api/stkPushCallback`
+        "ConfirmationURL": `${process.env.BASE_URL}/api/stkPushCallback/${Order_ID}`,
+        "ValidationURL": `${process.env.BASE_URL}/api/stkPushCallback/${Order_ID}`
       };
       
       const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
