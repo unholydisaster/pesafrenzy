@@ -1,9 +1,8 @@
 
 export default async (req, res) => {
     try{  
-        console.log('Received callback request:', req.body);
         
-        res.json(true)
+        res.json(req.body)
   
     }catch (e) {
         console.error("Error while trying to update LipaNaMpesa details from the callback",e)
