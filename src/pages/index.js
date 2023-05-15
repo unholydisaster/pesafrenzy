@@ -1,47 +1,50 @@
 import { useState } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+import LoginForm from '@/components/login';
+import Registration from '@/components/register';
 
-const MyForm = () => {
-  const [phone, setPhone] = useState('');
-  const [amount, setAmount] = useState('');
-  const [orderId, setOrderId] = useState(Math.floor(Math.random() * 100000));
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
 
-    const requestData = {
-      amount: amount,
-      phone: phone,
-      Order_ID: orderId
-    };
-    console.log(requestData)
-    axios.post('/api/lipanampesa', requestData)
-      .then(response => {
-        console.log(response.data);
-        // handle successful response here
-      })
-      .catch(error => {
-        console.error(error);
-        // handle error response here
-      });
-  }
+const Div=styled.div`
+display:grid;
+grid-template-columns:1fr 1fr;
+`
+const Button=styled.button`
+width:100px;
+padding:10px 15px;
+margin-left:10px;
+cursor:pointer;
+background:rgb(31,136,61);
+color:white;
+border-radius:5px;
+display:${({open2})=>open2?"grid":"none"}
+`
+const MyHome = () => {
+const [open,setOpen]=useState(true)
+const [open1,setOpen1]=useState(true)
+const [open2,setOpen2]=useState(true)
+
+const handleClick=()=>{
+  setOpen(!open)
+  setOpen2(!open2)
+}
+const handleClick2=()=>{
+  setOpen1(!open1)
+  setOpen2(!open2)
+}
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Phone number:
-        <input placeholder='phone number' type="text" value={phone} onChange={e => setPhone(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Amount:
-        <input placeholder='amount' type="text" value={amount} onChange={e => setAmount(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit">Initiate STK Push</button>
-    </form>
+    <>
+      <Div>
+        <Button onClick={handleClick} open2={open2}>Login</Button>
+        <Button onClick={handleClick2} open2={open2}>Register</Button>
+      </Div>
+      <LoginForm open={open}/>
+      <Registration open1={open1}/>
+      </>
   );
 };
 
-export default MyForm;
+export default MyHome;
 
