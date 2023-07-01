@@ -12,6 +12,11 @@ export const lq=breakpoints.map(
 
 export const Divcontainer=styled.div`
 background:transparent;
+display:grid;
+height:100vh;
+width:50%;
+align-items: center;
+justify-content:center;
 display:${({open})=>open?"none":"grid"};
 `
 export const Info=styled.div`

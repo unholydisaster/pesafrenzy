@@ -1,28 +1,39 @@
-import { registerCallbackURLs } from "./register";
-import { getTimestamp } from "./timestamp"
+import { getTimestamp } from "./timestamp";
 import axios from 'axios';
 
-//import { getClientCredentialsToken } from "./getAccessToken";
-
-
-export default async (req, res,next) => {
+export default async (req, res, next) => {
   try {
-    const { amount, phone, Order_ID } = req.body; 
-
-    const auth = 'Bearer M3F1uvHX4LOVAnMBVw8JQoEuGryk';
-    registerCallbackURLs(Order_ID);
+    const { amount, phone, Order_ID } = req.body;
+    
+    const consumerKey = process.env.MPESA_CONSUMER_KEY;
+    const consumerSecret = process.env.MPESA_CONSUMER_SECRET;
+    const darajaEndpoint = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
+    var accessToken;
+    try {
+      const response = await axios.get(darajaEndpoint, {
+        auth: {
+          username: consumerKey,
+          password: consumerSecret,
+        },
+      });
+      accessToken = response.data.access_token;
+  
+    } catch (error) {
+      console.error('Failed to obtain access token:', error);
+      res.status(500).json({ error: 'Failed to obtain access token' });
+    }
+    
+    const auth = `Bearer ${accessToken}`;
+    console.log(accessToken);
     next
     const url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest';
 
-    // Get the access token using getClientCredentialsToken function
-    // const access_token = await getClientCredentialsToken(process.env.MPESA_CONSUMER_KEY, process.env.MPESA_CONSUMER_SECRET);
     const timestamp = getTimestamp();
 
-    // shortcode + passkey + timestamp
-    const password = new Buffer.from(
+    const password = Buffer.from(
       process.env.BUSINESS_SHORT_CODE + process.env.PASS_KEY + timestamp
     ).toString('base64');
-     console.log(Order_ID)
+    console.log(Order_ID);
 
     const payload = {
       BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
@@ -44,17 +55,39 @@ export default async (req, res,next) => {
         'Content-Type': 'application/json',
       },
     });
-   
-    // Extract response parameters from the API response
-    console.log(response.data)
-    const { MerchantRequestID, ResponseCode, ResponseDescription } = response.data;
-    res.status(200).json({ MerchantRequestID, ResponseCode, ResponseDescription });
-   
+
+    const { CheckoutRequestID } = response.data;
+    const CHECKOUTREQUESTID = CheckoutRequestID;
+    next
+    if(CHECKOUTREQUESTID!= null){
+          const statusurl = "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query";
+          const statuspayload = {
+            BusinessShortCode: process.env.BUSINESS_SHORT_CODE,
+            Password: password,
+            Timestamp: timestamp,
+            CheckoutRequestID: CHECKOUTREQUESTID,
+          };
+      
+        const getStatus = await axios.post(statusurl, statuspayload, {
+          headers: {
+            Authorization: auth,
+            'Content-Type': 'application/json',
+          },
+        });
+        
+        {getStatus.data.ResultDesc == "The service request is processed successfully."?
+          res.status(200).send(getStatus.data)
+        : 
+        console.log("payment not successfull")
+        }
+    
+    } // Delay execution by 10 seconds (10000 milliseconds)
+
   } catch (error) {
-    console.error('Error while trying to create LipaNaMpesa details', error);
+    console.log('Error while trying to create LipaNaMpesa details', error);
     res.status(503).send({
       message: 'Something went wrong while trying to create LipaNaMpesa details. Contact admin',
       error: error.message,
     });
   }
-}
+};

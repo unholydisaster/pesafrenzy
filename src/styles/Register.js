@@ -4,6 +4,15 @@ import styled from "styled-components";
 export const Divcontainerregister=styled.div`
 background:transparent;
 display:${({open1})=>open1?"none":"grid"};
+display:grid;
+height:100vh;
+width:50%;
+position:absolute;
+top:10%;
+left:25%;
+align-items: center;
+border:1px solid red;
+justify-content:center;
 `
 
 export const Inforegister=styled.div`

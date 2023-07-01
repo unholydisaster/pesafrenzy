@@ -9,6 +9,11 @@ import Registration from '@/components/register';
 const Div=styled.div`
 display:grid;
 grid-template-columns:1fr 1fr;
+width:20%;
+left:75%;
+position:relative;
+top:10px;
+
 `
 const Button=styled.button`
 width:100px;
@@ -40,8 +45,6 @@ const handleClick2=()=>{
         <Button onClick={handleClick} open2={open2}>Login</Button>
         <Button onClick={handleClick2} open2={open2}>Register</Button>
       </Div>
-      <LoginForm open={open}/>
-      <Registration open1={open1}/>
       </>
   );
 };
