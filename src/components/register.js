@@ -26,7 +26,7 @@ function Registration({open1}) {
     <>
     <Divcontainerregister open1={open1}>
     <Inforegister>
-        <InfoLabelregister>Welcome to Pesafrenzy! Let's begin the adventure</InfoLabelregister>
+        <InfoLabelregister>Welcome to Pesafrenzy! Let begin the adventure</InfoLabelregister>
     </Inforegister>
       <Formregister onSubmit={handleSubmit}>
         <Labelregister>Enter your email</Labelregister>
