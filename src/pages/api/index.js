@@ -1,4 +1,4 @@
-import { store } from "../placeholder";
+import { store } from "../placeholder.js";
 
 export default async(req, res)=> {
   let { query:{page,limit},method } = req;
